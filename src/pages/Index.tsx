@@ -33,7 +33,7 @@ const Index = () => {
           {/* Upload Section */}
           <FileUpload 
             title="Importar Dados" 
-            allowedFormats={["csv", "xlsx"]}
+            allowedFormats={["csv", "xlsx", "xls"]}
             maxSize="10MB"
           />
           

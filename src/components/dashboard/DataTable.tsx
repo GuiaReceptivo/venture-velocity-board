@@ -177,10 +177,11 @@ export const DataTable: React.FC<DataTableProps> = ({ title, data }) => {
         <Pagination>
           <PaginationContent>
             <PaginationItem>
-              <PaginationPrevious
-                onClick={() => setPage(page > 1 ? page - 1 : 1)}
-                disabled={page === 1}
-              />
+              {page === 1 ? (
+                <PaginationPrevious className="pointer-events-none opacity-50" />
+              ) : (
+                <PaginationPrevious onClick={() => setPage(page - 1)} />
+              )}
             </PaginationItem>
             
             {Array.from({ length: totalPages }, (_, i) => i + 1)
@@ -193,13 +194,12 @@ export const DataTable: React.FC<DataTableProps> = ({ title, data }) => {
                       <PaginationItem>
                         <PaginationEllipsis />
                       </PaginationItem>
-                      <PaginationItem>
-                        <PaginationLink
-                          isActive={p === page}
-                          onClick={() => setPage(p)}
-                        >
-                          {p}
-                        </PaginationLink>
+                      <PaginationItem key={p}>
+                        {p === page ? (
+                          <PaginationLink isActive={true}>{p}</PaginationLink>
+                        ) : (
+                          <PaginationLink onClick={() => setPage(p)}>{p}</PaginationLink>
+                        )}
                       </PaginationItem>
                     </React.Fragment>
                   );
@@ -207,21 +207,21 @@ export const DataTable: React.FC<DataTableProps> = ({ title, data }) => {
                 
                 return (
                   <PaginationItem key={p}>
-                    <PaginationLink
-                      isActive={p === page}
-                      onClick={() => setPage(p)}
-                    >
-                      {p}
-                    </PaginationLink>
+                    {p === page ? (
+                      <PaginationLink isActive={true}>{p}</PaginationLink>
+                    ) : (
+                      <PaginationLink onClick={() => setPage(p)}>{p}</PaginationLink>
+                    )}
                   </PaginationItem>
                 );
               })}
             
             <PaginationItem>
-              <PaginationNext
-                onClick={() => setPage(page < totalPages ? page + 1 : totalPages)}
-                disabled={page === totalPages}
-              />
+              {page === totalPages ? (
+                <PaginationNext className="pointer-events-none opacity-50" />
+              ) : (
+                <PaginationNext onClick={() => setPage(page + 1)} />
+              )}
             </PaginationItem>
           </PaginationContent>
         </Pagination>
