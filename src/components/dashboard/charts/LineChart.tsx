@@ -27,16 +27,16 @@ interface LineChartProps {
 
 export const LineChart: React.FC<LineChartProps> = ({ title, data, lines }) => {
   return (
-    <div className="dashboard-card h-full flex flex-col">
-      <h3 className="dashboard-title">{title}</h3>
-      <div className="flex-1 min-h-[220px]">
+    <div className="dashboard-card">
+      <h3 className="text-base font-medium mb-2">{title}</h3>
+      <div className="h-[160px]">
         <ResponsiveContainer width="100%" height="100%">
           <RechartsLineChart
             data={data}
             margin={{
               top: 5,
-              right: 30,
-              left: 20,
+              right: 20,
+              left: 10,
               bottom: 5,
             }}
           >
@@ -44,12 +44,12 @@ export const LineChart: React.FC<LineChartProps> = ({ title, data, lines }) => {
             <XAxis 
               dataKey="date" 
               stroke="#8E9196" 
-              tick={{ fill: '#8E9196' }} 
+              tick={{ fill: '#8E9196', fontSize: 10 }} 
               axisLine={{ stroke: '#2a2a45' }}
             />
             <YAxis
               stroke="#8E9196"
-              tick={{ fill: '#8E9196' }}
+              tick={{ fill: '#8E9196', fontSize: 10 }}
               axisLine={{ stroke: '#2a2a45' }}
               tickFormatter={(value) => 
                 new Intl.NumberFormat('pt-BR', {
@@ -63,7 +63,8 @@ export const LineChart: React.FC<LineChartProps> = ({ title, data, lines }) => {
                 backgroundColor: '#16213e', 
                 border: '1px solid #2a2a45',
                 borderRadius: '0.375rem',
-                color: '#ffffff'
+                color: '#ffffff',
+                fontSize: '0.75rem'
               }} 
               formatter={(value) => [
                 new Intl.NumberFormat('pt-BR', {
@@ -73,16 +74,16 @@ export const LineChart: React.FC<LineChartProps> = ({ title, data, lines }) => {
                 ''
               ]}
             />
-            <Legend />
+            <Legend wrapperStyle={{ fontSize: '0.7rem' }} />
             {lines.map((line) => (
               <Line
                 key={line.key}
                 type="monotone"
                 dataKey={line.key}
                 stroke={line.color}
-                strokeWidth={2}
-                activeDot={{ r: 6 }}
-                dot={{ r: 3 }}
+                strokeWidth={1.5}
+                activeDot={{ r: 4 }}
+                dot={{ r: 2 }}
               />
             ))}
           </RechartsLineChart>
