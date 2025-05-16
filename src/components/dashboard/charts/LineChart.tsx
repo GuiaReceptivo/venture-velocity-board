@@ -29,7 +29,7 @@ export const LineChart: React.FC<LineChartProps> = ({ title, data, lines }) => {
   return (
     <div className="dashboard-card h-full flex flex-col">
       <h3 className="dashboard-title">{title}</h3>
-      <div className="flex-1 min-h-[300px]">
+      <div className="flex-1 min-h-[220px]">
         <ResponsiveContainer width="100%" height="100%">
           <RechartsLineChart
             data={data}
