@@ -8,41 +8,11 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from '@/components/ui/pagination';
-import { Button } from '@/components/ui/button';
-import { Mail, Download, ChevronDown, ChevronUp } from 'lucide-react';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-
-interface SaleData {
-  id: string;
-  voucher: string;
-  date: string;
-  customer: string;
-  channel: string;
-  service: string;
-  pax: number;
-  value: number;
-  seller: string;
-  email?: string;
-}
-
-interface DataTableProps {
-  title: string;
-  data: SaleData[];
-}
+import { SaleData, DataTableProps } from './table/types';
+import { TableActions } from './table/TableActions';
+import { TablePagination } from './table/TablePagination';
+import { SalesTableRow } from './table/TableRow';
+import { ExpandedRowContent } from './table/ExpandedRowContent';
 
 export const DataTable: React.FC<DataTableProps> = ({ title, data }) => {
   const [page, setPage] = useState(1);
@@ -71,23 +41,17 @@ export const DataTable: React.FC<DataTableProps> = ({ title, data }) => {
       setExpandedRow(id);
     }
   };
+
+  const handleExport = (format: string) => {
+    console.log(`Exporting data as ${format}`);
+    // Implementation for export functionality
+  };
   
   return (
     <div className="dashboard-card">
       <div className="flex justify-between items-center mb-4">
         <h3 className="dashboard-title">{title}</h3>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" size="sm">
-              <Download size={16} className="mr-2" />
-              Exportar
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem>Exportar como CSV</DropdownMenuItem>
-            <DropdownMenuItem>Exportar como XLSX</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <TableActions onExport={handleExport} />
       </div>
       
       <div className="rounded-md border">
@@ -108,62 +72,21 @@ export const DataTable: React.FC<DataTableProps> = ({ title, data }) => {
           <TableBody>
             {paginatedData.map((row) => (
               <React.Fragment key={row.id}>
-                <TableRow className="hover:bg-muted/5">
-                  <TableCell>{row.voucher}</TableCell>
-                  <TableCell>{formatDate(row.date)}</TableCell>
-                  <TableCell>{row.customer}</TableCell>
-                  <TableCell>{row.channel}</TableCell>
-                  <TableCell>{row.service}</TableCell>
-                  <TableCell className="text-center">{row.pax}</TableCell>
-                  <TableCell>{formatValue(row.value)}</TableCell>
-                  <TableCell>{row.seller}</TableCell>
-                  <TableCell className="text-right">
-                    <div className="flex justify-end gap-2">
-                      {row.email && (
-                        <Button variant="ghost" size="icon" asChild>
-                          <a href={`mailto:${row.email}`}>
-                            <Mail size={16} />
-                            <span className="sr-only">Email</span>
-                          </a>
-                        </Button>
-                      )}
-                      <Button 
-                        variant="ghost" 
-                        size="icon"
-                        onClick={() => toggleRowExpand(row.id)}
-                      >
-                        {expandedRow === row.id ? (
-                          <ChevronUp size={16} />
-                        ) : (
-                          <ChevronDown size={16} />
-                        )}
-                        <span className="sr-only">Expandir</span>
-                      </Button>
-                    </div>
-                  </TableCell>
-                </TableRow>
+                <SalesTableRow
+                  row={row}
+                  isExpanded={expandedRow === row.id}
+                  onToggleExpand={() => toggleRowExpand(row.id)}
+                  formatDate={formatDate}
+                  formatValue={formatValue}
+                />
                 {expandedRow === row.id && (
                   <TableRow>
                     <TableCell colSpan={9} className="bg-muted/5 p-4">
-                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
-                        <div>
-                          <p className="font-semibold">Detalhes do Cliente</p>
-                          <p className="text-muted-foreground">Nome: {row.customer}</p>
-                          {row.email && <p className="text-muted-foreground">Email: {row.email}</p>}
-                        </div>
-                        <div>
-                          <p className="font-semibold">Detalhes da Venda</p>
-                          <p className="text-muted-foreground">Voucher: {row.voucher}</p>
-                          <p className="text-muted-foreground">Data: {formatDate(row.date)}</p>
-                          <p className="text-muted-foreground">Valor: {formatValue(row.value)}</p>
-                        </div>
-                        <div>
-                          <p className="font-semibold">Detalhes do Serviço</p>
-                          <p className="text-muted-foreground">Tipo: {row.service}</p>
-                          <p className="text-muted-foreground">Canal: {row.channel}</p>
-                          <p className="text-muted-foreground">PAX: {row.pax}</p>
-                        </div>
-                      </div>
+                      <ExpandedRowContent 
+                        rowData={row} 
+                        formatDate={formatDate} 
+                        formatValue={formatValue} 
+                      />
                     </TableCell>
                   </TableRow>
                 )}
@@ -174,57 +97,11 @@ export const DataTable: React.FC<DataTableProps> = ({ title, data }) => {
       </div>
       
       <div className="mt-4">
-        <Pagination>
-          <PaginationContent>
-            <PaginationItem>
-              {page === 1 ? (
-                <PaginationPrevious className="pointer-events-none opacity-50" />
-              ) : (
-                <PaginationPrevious onClick={() => setPage(page - 1)} />
-              )}
-            </PaginationItem>
-            
-            {Array.from({ length: totalPages }, (_, i) => i + 1)
-              .filter(p => p === 1 || p === totalPages || (p >= page - 1 && p <= page + 1))
-              .map((p, index, array) => {
-                // Add ellipsis
-                if (index > 0 && p - array[index - 1] > 1) {
-                  return (
-                    <React.Fragment key={`ellipsis-${p}`}>
-                      <PaginationItem>
-                        <PaginationEllipsis />
-                      </PaginationItem>
-                      <PaginationItem key={p}>
-                        {p === page ? (
-                          <PaginationLink isActive={true}>{p}</PaginationLink>
-                        ) : (
-                          <PaginationLink onClick={() => setPage(p)}>{p}</PaginationLink>
-                        )}
-                      </PaginationItem>
-                    </React.Fragment>
-                  );
-                }
-                
-                return (
-                  <PaginationItem key={p}>
-                    {p === page ? (
-                      <PaginationLink isActive={true}>{p}</PaginationLink>
-                    ) : (
-                      <PaginationLink onClick={() => setPage(p)}>{p}</PaginationLink>
-                    )}
-                  </PaginationItem>
-                );
-              })}
-            
-            <PaginationItem>
-              {page === totalPages ? (
-                <PaginationNext className="pointer-events-none opacity-50" />
-              ) : (
-                <PaginationNext onClick={() => setPage(page + 1)} />
-              )}
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
+        <TablePagination
+          currentPage={page}
+          totalPages={totalPages}
+          onPageChange={setPage}
+        />
       </div>
     </div>
   );
