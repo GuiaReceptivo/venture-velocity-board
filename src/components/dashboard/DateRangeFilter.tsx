@@ -1,16 +1,18 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { format } from 'date-fns';
-import { CalendarIcon } from 'lucide-react';
+import { CalendarIcon, BadgeDollarSign } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
+import { Card, CardContent } from '@/components/ui/card';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { Separator } from '@/components/ui/separator';
+import { salesData } from '../dashboard/mockData';
 
 interface DateRangeFilterProps {
   title: string;
@@ -24,6 +26,34 @@ export const DateRangeFilter: React.FC<DateRangeFilterProps> = ({ title }) => {
   const [endDate, setEndDate] = useState<Date | undefined>(today);
   const [isStartCalendarOpen, setIsStartCalendarOpen] = useState(false);
   const [isEndCalendarOpen, setIsEndCalendarOpen] = useState(false);
+  const [totalSales, setTotalSales] = useState<number>(0);
+  
+  useEffect(() => {
+    calculateTotalSales();
+  }, [startDate, endDate]);
+  
+  const calculateTotalSales = () => {
+    if (!startDate || !endDate) return;
+    
+    const start = startDate.getTime();
+    const end = endDate.getTime();
+    
+    // Filter sales that fall within the date range and calculate total
+    const filteredSales = salesData.filter(sale => {
+      const saleDate = new Date(sale.date).getTime();
+      return saleDate >= start && saleDate <= end;
+    });
+    
+    const total = filteredSales.reduce((sum, sale) => sum + sale.value, 0);
+    setTotalSales(total);
+  };
+  
+  const formatCurrency = (value: number): string => {
+    return new Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency: 'BRL'
+    }).format(value);
+  };
   
   return (
     <div className="dashboard-card">
@@ -89,6 +119,19 @@ export const DateRangeFilter: React.FC<DateRangeFilterProps> = ({ title }) => {
           </Popover>
         </div>
       </div>
+      
+      {/* Total Sales for Selected Period */}
+      <Card className="mt-4 bg-muted/10 border-dashed">
+        <CardContent className="p-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <BadgeDollarSign className="text-dashboard-primary" size={20} />
+              <span className="text-sm font-medium">Total de Vendas no Período:</span>
+            </div>
+            <span className="text-lg font-bold">{formatCurrency(totalSales)}</span>
+          </div>
+        </CardContent>
+      </Card>
       
       <Separator className="my-4" />
       
