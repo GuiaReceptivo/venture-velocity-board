@@ -13,98 +13,226 @@ const dates = generateDates(30);
 
 // Mock time series data
 export const timeSeriesData = dates.map((date) => {
-  const online = Math.floor(Math.random() * 15000) + 5000;
-  const phone = Math.floor(Math.random() * 8000) + 2000;
-  const partner = Math.floor(Math.random() * 12000) + 3000;
+  const agencia = Math.floor(Math.random() * 15000) + 5000;
+  const online = Math.floor(Math.random() * 8000) + 2000;
+  const telefone = Math.floor(Math.random() * 12000) + 3000;
   
   return {
     date,
+    Agência: agencia,
     Online: online,
-    Telefone: phone,
-    Parceiro: partner
+    Telefone: telefone
   };
 });
 
 // Mock donut chart data
 export const channelDistributionData = [
-  { name: "Online", value: 254000 },
-  { name: "Telefone", value: 125000 },
-  { name: "Presencial", value: 98000 },
+  { name: "Agência", value: 254000 },
+  { name: "Online", value: 125000 },
+  { name: "Telefone", value: 98000 },
   { name: "Parceiro", value: 187000 },
   { name: "App", value: 143000 },
 ];
 
 // Mock bar chart data
 export const sellerData = [
-  { name: "Ana Silva", value: 230000 },
-  { name: "Carlos Oliveira", value: 187000 },
-  { name: "Maria Santos", value: 164000 },
-  { name: "João Ribeiro", value: 132000 },
+  { name: "João Becker", value: 230000 },
+  { name: "Ana Silva", value: 187000 },
+  { name: "Carlos Oliveira", value: 164000 },
+  { name: "Maria Santos", value: 132000 },
   { name: "Paula Costa", value: 121000 },
 ];
 
-// Mock table data with specific values to total R$ 890.550,50 for 2025
+// New data structure based on the provided JSON
 export const salesData = [
-  // Janeiro 2025 - R$ 150.000
-  { id: "sale-1", voucher: "V10001", date: "2025-01-15", dataLancamentoServico: "2025-01-15", customer: "Cliente 1", channel: "Online", service: "Hospedagem", pax: 2, value: 25000, seller: "Ana Silva", email: "cliente1@example.com" },
-  { id: "sale-2", voucher: "V10002", date: "2025-01-20", dataLancamentoServico: "2025-01-20", customer: "Cliente 2", channel: "Telefone", service: "Pacote", pax: 4, value: 35000, seller: "Carlos Oliveira", email: "cliente2@example.com" },
-  { id: "sale-3", voucher: "V10003", date: "2025-01-25", dataLancamentoServico: "2025-01-25", customer: "Cliente 3", channel: "Online", service: "Transfer", pax: 2, value: 15000, seller: "Maria Santos", email: "cliente3@example.com" },
-  { id: "sale-4", voucher: "V10004", date: "2025-01-28", dataLancamentoServico: "2025-01-28", customer: "Cliente 4", channel: "Parceiro", service: "Passeio", pax: 6, value: 45000, seller: "João Ribeiro", email: "cliente4@example.com" },
-  { id: "sale-5", voucher: "V10005", date: "2025-01-30", dataLancamentoServico: "2025-01-30", customer: "Cliente 5", channel: "App", service: "Traslado", pax: 3, value: 30000, seller: "Paula Costa", email: "cliente5@example.com" },
-  
-  // Fevereiro 2025 - R$ 180.000
-  { id: "sale-6", voucher: "V10006", date: "2025-02-05", dataLancamentoServico: "2025-02-05", customer: "Cliente 6", channel: "Online", service: "Hospedagem", pax: 4, value: 55000, seller: "Ana Silva", email: "cliente6@example.com" },
-  { id: "sale-7", voucher: "V10007", date: "2025-02-12", dataLancamentoServico: "2025-02-12", customer: "Cliente 7", channel: "Telefone", service: "Pacote", pax: 2, value: 25000, seller: "Carlos Oliveira", email: "cliente7@example.com" },
-  { id: "sale-8", voucher: "V10008", date: "2025-02-18", dataLancamentoServico: "2025-02-18", customer: "Cliente 8", channel: "Presencial", service: "Transfer", pax: 8, value: 65000, seller: "Maria Santos", email: "cliente8@example.com" },
-  { id: "sale-9", voucher: "V10009", date: "2025-02-25", dataLancamentoServico: "2025-02-25", customer: "Cliente 9", channel: "Parceiro", service: "Passeio", pax: 3, value: 35000, seller: "João Ribeiro", email: "cliente9@example.com" },
-  
-  // Março 2025 - R$ 220.000
-  { id: "sale-10", voucher: "V10010", date: "2025-03-08", dataLancamentoServico: "2025-03-08", customer: "Cliente 10", channel: "Online", service: "Hospedagem", pax: 6, value: 85000, seller: "Ana Silva", email: "cliente10@example.com" },
-  { id: "sale-11", voucher: "V10011", date: "2025-03-15", dataLancamentoServico: "2025-03-15", customer: "Cliente 11", channel: "App", service: "Pacote", pax: 4, value: 45000, seller: "Paula Costa", email: "cliente11@example.com" },
-  { id: "sale-12", voucher: "V10012", date: "2025-03-22", dataLancamentoServico: "2025-03-22", customer: "Cliente 12", channel: "Telefone", service: "Traslado", pax: 5, value: 55000, seller: "Carlos Oliveira", email: "cliente12@example.com" },
-  { id: "sale-13", voucher: "V10013", date: "2025-03-28", dataLancamentoServico: "2025-03-28", customer: "Cliente 13", channel: "Presencial", service: "Passeio", pax: 2, value: 35000, seller: "Maria Santos", email: "cliente13@example.com" },
-  
-  // Abril 2025 - R$ 165.000
-  { id: "sale-14", voucher: "V10014", date: "2025-04-10", dataLancamentoServico: "2025-04-10", customer: "Cliente 14", channel: "Online", service: "Hospedagem", pax: 3, value: 45000, seller: "Ana Silva", email: "cliente14@example.com" },
-  { id: "sale-15", voucher: "V10015", date: "2025-04-18", dataLancamentoServico: "2025-04-18", customer: "Cliente 15", channel: "Parceiro", service: "Pacote", pax: 7, value: 75000, seller: "João Ribeiro", email: "cliente15@example.com" },
-  { id: "sale-16", voucher: "V10016", date: "2025-04-25", dataLancamentoServico: "2025-04-25", customer: "Cliente 16", channel: "App", service: "Transfer", pax: 4, value: 45000, seller: "Paula Costa", email: "cliente16@example.com" },
-  
-  // Maio 2025 - R$ 175.550,50
-  { id: "sale-17", voucher: "V10017", date: "2025-05-05", dataLancamentoServico: "2025-05-05", customer: "Cliente 17", channel: "Online", service: "Hospedagem", pax: 5, value: 65000, seller: "Ana Silva", email: "cliente17@example.com" },
-  { id: "sale-18", voucher: "V10018", date: "2025-05-12", dataLancamentoServico: "2025-05-12", customer: "Cliente 18", channel: "Telefone", service: "Pacote", pax: 6, value: 75550.50, seller: "Carlos Oliveira", email: "cliente18@example.com" },
-  { id: "sale-19", voucher: "V10019", date: "2025-05-20", dataLancamentoServico: "2025-05-20", customer: "Cliente 19", channel: "Presencial", service: "Traslado", pax: 2, value: 25000, seller: "Maria Santos", email: "cliente19@example.com" },
-  { id: "sale-20", voucher: "V10020", date: "2025-05-28", dataLancamentoServico: "2025-05-28", customer: "Cliente 20", channel: "Parceiro", service: "Passeio", pax: 1, value: 10000, seller: "João Ribeiro", email: "cliente20@example.com" },
-  
-  // Alguns dados de 2024 para teste
-  { id: "sale-21", voucher: "V10021", date: "2024-12-15", dataLancamentoServico: "2024-12-15", customer: "Cliente 21", channel: "Online", service: "Hospedagem", pax: 2, value: 35000, seller: "Ana Silva", email: "cliente21@example.com" },
-  { id: "sale-22", voucher: "V10022", date: "2024-11-20", dataLancamentoServico: "2024-11-20", customer: "Cliente 22", channel: "Telefone", service: "Pacote", pax: 3, value: 42000, seller: "Carlos Oliveira", email: "cliente22@example.com" },
+  {
+    id: "sale-1",
+    voucher: "1374022",
+    dataLancamentoServico: "2025-01-15",
+    canal_de_venda: "Agência",
+    tipo_servico: "Traslado",
+    tipo_cobranca: "Pag. Privativo",
+    cliente: {
+      nome: "EDUARDO F. NOGUEIRA",
+      email: "dunog77@me.com",
+      telefone: "+55 4198478110",
+      qtde_pax: 2,
+      detalhe_pax: {
+        adt: 2,
+        chd: 0,
+        inf: 0,
+        sen: 0,
+        free: 0
+      }
+    },
+    servico: {
+      nome: "Transfer Privativo OUT",
+      valor: 130.00,
+      desconto: 0.00,
+      status_cobranca: "130.00 atrasado no IN (26/dez 18:50)"
+    },
+    vendedor: "João Becker",
+    trajeto: {
+      origem: "Airbnb - Bariloche",
+      destino: "Aeroparque - Jorge Newbery"
+    }
+  },
+  {
+    id: "sale-2",
+    voucher: "1383480",
+    dataLancamentoServico: "2025-01-20",
+    canal_de_venda: "Agência",
+    tipo_servico: "Passeio",
+    tipo_cobranca: "Pag. Regular",
+    cliente: {
+      nome: "LUIZ HENRIQUE DE SOUZA MEDEIROS",
+      email: "luizh9@hotmail.com",
+      telefone: "+55 6596296993",
+      qtde_pax: 2,
+      detalhe_pax: {
+        adt: 2,
+        chd: 0,
+        inf: 0,
+        sen: 0,
+        free: 0
+      }
+    },
+    servico: {
+      nome: "Delta tigre",
+      valor: 1000.00,
+      desconto: 0.00,
+      status_cobranca: "Pago",
+      observacao: "RESERVA CONFIRMADA, AGUARDAR NA RECEPÇÃO DO HOTEL ÀS 08:40"
+    },
+    vendedor: "João Becker",
+    trajeto: {
+      origem: "Airbnb - Ushuaia",
+      destino: "Delta tigre"
+    }
+  },
+  {
+    id: "sale-3",
+    voucher: "1390123",
+    dataLancamentoServico: "2025-02-05",
+    canal_de_venda: "Online",
+    tipo_servico: "Hospedagem",
+    tipo_cobranca: "Pag. Regular",
+    cliente: {
+      nome: "MARIA FERNANDA SANTOS",
+      email: "maria.santos@email.com",
+      telefone: "+55 1199887766",
+      qtde_pax: 4,
+      detalhe_pax: {
+        adt: 2,
+        chd: 2,
+        inf: 0,
+        sen: 0,
+        free: 0
+      }
+    },
+    servico: {
+      nome: "Hotel Boutique Buenos Aires",
+      valor: 2500.00,
+      desconto: 250.00,
+      status_cobranca: "Pago"
+    },
+    vendedor: "Ana Silva",
+    trajeto: {
+      origem: "São Paulo",
+      destino: "Buenos Aires"
+    }
+  },
+  {
+    id: "sale-4",
+    voucher: "1395678",
+    dataLancamentoServico: "2025-02-12",
+    canal_de_venda: "Telefone",
+    tipo_servico: "Pacote",
+    tipo_cobranca: "Pag. Parcelado",
+    cliente: {
+      nome: "CARLOS ALBERTO LIMA",
+      email: "carlos.lima@hotmail.com",
+      telefone: "+55 2133445566",
+      qtde_pax: 6,
+      detalhe_pax: {
+        adt: 4,
+        chd: 2,
+        inf: 0,
+        sen: 0,
+        free: 0
+      }
+    },
+    servico: {
+      nome: "Pacote Patagônia Completa",
+      valor: 8500.00,
+      desconto: 500.00,
+      status_cobranca: "Parcialmente Pago"
+    },
+    vendedor: "Carlos Oliveira",
+    trajeto: {
+      origem: "Rio de Janeiro",
+      destino: "Bariloche"
+    }
+  },
+  {
+    id: "sale-5",
+    voucher: "1398765",
+    dataLancamentoServico: "2025-03-01",
+    canal_de_venda: "Agência",
+    tipo_servico: "Transfer",
+    tipo_cobranca: "Pag. Privativo",
+    cliente: {
+      nome: "PEDRO HENRIQUE COSTA",
+      email: "pedro.costa@gmail.com",
+      telefone: "+55 1155667788",
+      qtde_pax: 3,
+      detalhe_pax: {
+        adt: 2,
+        chd: 1,
+        inf: 0,
+        sen: 0,
+        free: 0
+      }
+    },
+    servico: {
+      nome: "Transfer Executivo Premium",
+      valor: 450.00,
+      desconto: 0.00,
+      status_cobranca: "Pago"
+    },
+    vendedor: "Maria Santos",
+    trajeto: {
+      origem: "Hotel Centro - Buenos Aires",
+      destino: "Aeroporto Ezeiza"
+    }
+  }
 ];
 
 // KPI Data
 export const kpiData = {
   totalSales: {
-    value: "R$ 1.523.000",
+    value: "R$ 12.580,00",
     change: {
       value: "12,5%",
       positive: true,
     },
   },
   vouchersIssued: {
-    value: "754",
+    value: "5",
     change: {
       value: "8,2%",
       positive: true,
     },
   },
   averageTicket: {
-    value: "R$ 2.020",
+    value: "R$ 2.516,00",
     change: {
       value: "3,7%",
       positive: true,
     },
   },
   paxCount: {
-    value: "1.892",
+    value: "17",
     change: {
       value: "5,3%",
       positive: false,

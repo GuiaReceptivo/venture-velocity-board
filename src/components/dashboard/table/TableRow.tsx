@@ -3,19 +3,7 @@ import React from 'react';
 import { TableCell, TableRow as UITableRow } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import { Mail, ChevronDown, ChevronUp } from 'lucide-react';
-
-interface SaleData {
-  id: string;
-  voucher: string;
-  date: string;
-  customer: string;
-  channel: string;
-  service: string;
-  pax: number;
-  value: number;
-  seller: string;
-  email?: string;
-}
+import { SaleData } from './types';
 
 interface TableRowProps {
   row: SaleData;
@@ -32,21 +20,23 @@ export const SalesTableRow: React.FC<TableRowProps> = ({
   formatDate,
   formatValue,
 }) => {
+  const valorFinal = row.servico.valor - row.servico.desconto;
+  
   return (
     <UITableRow className="hover:bg-muted/5">
       <TableCell>{row.voucher}</TableCell>
-      <TableCell>{formatDate(row.date)}</TableCell>
-      <TableCell>{row.customer}</TableCell>
-      <TableCell>{row.channel}</TableCell>
-      <TableCell>{row.service}</TableCell>
-      <TableCell className="text-center">{row.pax}</TableCell>
-      <TableCell>{formatValue(row.value)}</TableCell>
-      <TableCell>{row.seller}</TableCell>
+      <TableCell>{formatDate(row.dataLancamentoServico)}</TableCell>
+      <TableCell>{row.cliente.nome}</TableCell>
+      <TableCell>{row.canal_de_venda}</TableCell>
+      <TableCell>{row.tipo_servico}</TableCell>
+      <TableCell className="text-center">{row.cliente.qtde_pax}</TableCell>
+      <TableCell>{formatValue(valorFinal)}</TableCell>
+      <TableCell>{row.vendedor}</TableCell>
       <TableCell className="text-right">
         <div className="flex justify-end gap-2">
-          {row.email && (
+          {row.cliente.email && (
             <Button variant="ghost" size="icon" asChild>
-              <a href={`mailto:${row.email}`}>
+              <a href={`mailto:${row.cliente.email}`}>
                 <Mail size={16} />
                 <span className="sr-only">Email</span>
               </a>

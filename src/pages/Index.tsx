@@ -44,9 +44,10 @@ const Index = () => {
           <FilterAccordion 
             title="Filtros Avançados"
             fields={[
-              { name: "salesChannel", label: "Canal de Venda" },
-              { name: "serviceType", label: "Tipo de Serviço" },
-              { name: "seller", label: "Vendedor" },
+              { name: "canal_de_venda", label: "Canal de Venda" },
+              { name: "tipo_servico", label: "Tipo de Serviço" },
+              { name: "vendedor", label: "Vendedor" },
+              { name: "tipo_cobranca", label: "Tipo de Cobrança" },
             ]}
           />
           
@@ -99,9 +100,9 @@ const Index = () => {
             title="Evolução de Vendas"
             data={timeSeriesData}
             lines={[
-              { key: "Online", color: "#3a86ff" },
-              { key: "Telefone", color: "#06d6a0" },
-              { key: "Parceiro", color: "#8338ec" },
+              { key: "Agência", color: "#3a86ff" },
+              { key: "Online", color: "#06d6a0" },
+              { key: "Telefone", color: "#8338ec" },
             ]}
           />
           

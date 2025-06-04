@@ -58,7 +58,7 @@ export const DateRangeFilter: React.FC<DateRangeFilterProps> = ({ title }) => {
       console.log('Sale check:', {
         voucher: sale.voucher,
         date: sale.dataLancamentoServico,
-        value: sale.value,
+        value: sale.servico.valor,
         serviceLaunchDate: serviceLaunchDate.toISOString(),
         isInRange: isInRange
       });
@@ -66,12 +66,18 @@ export const DateRangeFilter: React.FC<DateRangeFilterProps> = ({ title }) => {
       return isInRange;
     });
     
-    const total = filteredSales.reduce((sum, sale) => sum + sale.value, 0);
+    const total = filteredSales.reduce((sum, sale) => sum + (sale.servico.valor - sale.servico.desconto), 0);
     setTotalSales(total);
     
     console.log('=== CALCULATION SUMMARY ===');
     console.log('Filtered sales count:', filteredSales.length);
-    console.log('Filtered sales:', filteredSales.map(s => ({ voucher: s.voucher, date: s.dataLancamentoServico, value: s.value })));
+    console.log('Filtered sales:', filteredSales.map(s => ({ 
+      voucher: s.voucher, 
+      date: s.dataLancamentoServico, 
+      valor: s.servico.valor,
+      desconto: s.servico.desconto,
+      valorFinal: s.servico.valor - s.servico.desconto
+    })));
     console.log('Total calculated:', total);
     console.log('Total formatted:', formatCurrency(total));
     console.log('=========================');

@@ -29,18 +29,20 @@ export const FilterAccordion: React.FC<FilterAccordionProps> = ({
   title,
   fields
 }) => {
-  // Mock options for dropdowns
+  // Mock options for dropdowns based on new data structure
   const mockOptions = {
-    'salesChannel': ['Online', 'Telefone', 'Presencial', 'Parceiro', 'App'],
-    'serviceType': ['Hospedagem', 'Traslado', 'Pacote', 'Passeio', 'Transfer'],
-    'seller': ['Ana Silva', 'Carlos Oliveira', 'Maria Santos', 'João Ribeiro', 'Paula Costa']
+    'canal_de_venda': ['Agência', 'Online', 'Telefone', 'Parceiro', 'App'],
+    'tipo_servico': ['Traslado', 'Passeio', 'Hospedagem', 'Transfer', 'Pacote'],
+    'vendedor': ['João Becker', 'Ana Silva', 'Carlos Oliveira', 'Maria Santos', 'Paula Costa'],
+    'tipo_cobranca': ['Pag. Regular', 'Pag. Privativo', 'Pag. Parcelado']
   };
   
   const getOptionsForField = (name: string) => {
     switch(name) {
-      case 'salesChannel': return mockOptions.salesChannel;
-      case 'serviceType': return mockOptions.serviceType;
-      case 'seller': return mockOptions.seller;
+      case 'canal_de_venda': return mockOptions.canal_de_venda;
+      case 'tipo_servico': return mockOptions.tipo_servico;
+      case 'vendedor': return mockOptions.vendedor;
+      case 'tipo_cobranca': return mockOptions.tipo_cobranca;
       default: return [];
     }
   };

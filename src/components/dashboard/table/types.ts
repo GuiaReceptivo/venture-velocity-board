@@ -1,15 +1,44 @@
 
+export interface DetalhesPax {
+  adt: number;
+  chd: number;
+  inf: number;
+  sen: number;
+  free: number;
+}
+
+export interface Cliente {
+  nome: string;
+  email: string;
+  telefone: string;
+  qtde_pax: number;
+  detalhe_pax: DetalhesPax;
+}
+
+export interface Servico {
+  nome: string;
+  valor: number;
+  desconto: number;
+  status_cobranca: string;
+  observacao?: string;
+}
+
+export interface Trajeto {
+  origem: string;
+  destino: string;
+}
+
 export interface SaleData {
   id: string;
   voucher: string;
-  date: string;
-  customer: string;
-  channel: string;
-  service: string;
-  pax: number;
-  value: number;
-  seller: string;
-  email?: string;
+  dataLancamentoServico: string;
+  canal_de_venda: string;
+  tipo_servico: string;
+  tipo_cobranca: string;
+  cliente: Cliente;
+  servico: Servico;
+  vendedor: string;
+  trajeto: Trajeto;
 }
 
 export interface DataTableProps {

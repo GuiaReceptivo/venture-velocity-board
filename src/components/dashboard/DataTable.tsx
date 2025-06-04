@@ -59,10 +59,10 @@ export const DataTable: React.FC<DataTableProps> = ({ title, data }) => {
           <TableHeader>
             <TableRow>
               <TableHead className="w-[100px]">Voucher</TableHead>
-              <TableHead className="w-[120px]">Data Venda</TableHead>
+              <TableHead className="w-[120px]">Data Serviço</TableHead>
               <TableHead className="w-[180px]">Cliente</TableHead>
               <TableHead className="w-[100px]">Canal</TableHead>
-              <TableHead className="w-[120px]">Serviço</TableHead>
+              <TableHead className="w-[120px]">Tipo Serviço</TableHead>
               <TableHead className="w-[60px] text-center">PAX</TableHead>
               <TableHead className="w-[100px]">Valor</TableHead>
               <TableHead className="w-[120px]">Vendedor</TableHead>
