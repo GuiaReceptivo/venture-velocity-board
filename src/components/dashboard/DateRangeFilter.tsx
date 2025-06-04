@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { format } from 'date-fns';
 import { CalendarIcon, BadgeDollarSign } from 'lucide-react';
@@ -34,21 +35,46 @@ export const DateRangeFilter: React.FC<DateRangeFilterProps> = ({ title }) => {
   const calculateTotalSales = () => {
     if (!startDate || !endDate) return;
     
-    const start = startDate.getTime();
-    const end = endDate.getTime();
+    // Normalize start date to beginning of day
+    const start = new Date(startDate);
+    start.setHours(0, 0, 0, 0);
     
-    // Filter sales by "dataLancamentoServico" field instead of "date"
+    // Normalize end date to end of day
+    const end = new Date(endDate);
+    end.setHours(23, 59, 59, 999);
+    
+    console.log('Date range for calculation:', {
+      start: start.toISOString(),
+      end: end.toISOString(),
+      startFormatted: format(start, 'dd/MM/yyyy'),
+      endFormatted: format(end, 'dd/MM/yyyy')
+    });
+    
+    // Filter sales by "dataLancamentoServico" field
     const filteredSales = salesData.filter(sale => {
-      const serviceLaunchDate = new Date(sale.dataLancamentoServico).getTime();
-      return serviceLaunchDate >= start && serviceLaunchDate <= end;
+      const serviceLaunchDate = new Date(sale.dataLancamentoServico);
+      const isInRange = serviceLaunchDate >= start && serviceLaunchDate <= end;
+      
+      console.log('Sale check:', {
+        voucher: sale.voucher,
+        date: sale.dataLancamentoServico,
+        value: sale.value,
+        serviceLaunchDate: serviceLaunchDate.toISOString(),
+        isInRange: isInRange
+      });
+      
+      return isInRange;
     });
     
     const total = filteredSales.reduce((sum, sale) => sum + sale.value, 0);
     setTotalSales(total);
     
-    console.log('Filtered sales:', filteredSales.length);
+    console.log('=== CALCULATION SUMMARY ===');
+    console.log('Filtered sales count:', filteredSales.length);
+    console.log('Filtered sales:', filteredSales.map(s => ({ voucher: s.voucher, date: s.dataLancamentoServico, value: s.value })));
     console.log('Total calculated:', total);
-    console.log('Date range:', { start: startDate, end: endDate });
+    console.log('Total formatted:', formatCurrency(total));
+    console.log('=========================');
   };
   
   const formatCurrency = (value: number): string => {
