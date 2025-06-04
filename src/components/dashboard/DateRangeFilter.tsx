@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { format } from 'date-fns';
 import { CalendarIcon, BadgeDollarSign } from 'lucide-react';
@@ -38,14 +37,18 @@ export const DateRangeFilter: React.FC<DateRangeFilterProps> = ({ title }) => {
     const start = startDate.getTime();
     const end = endDate.getTime();
     
-    // Filter sales that fall within the date range and calculate total
+    // Filter sales by "dataLancamentoServico" field instead of "date"
     const filteredSales = salesData.filter(sale => {
-      const saleDate = new Date(sale.date).getTime();
-      return saleDate >= start && saleDate <= end;
+      const serviceLaunchDate = new Date(sale.dataLancamentoServico).getTime();
+      return serviceLaunchDate >= start && serviceLaunchDate <= end;
     });
     
     const total = filteredSales.reduce((sum, sale) => sum + sale.value, 0);
     setTotalSales(total);
+    
+    console.log('Filtered sales:', filteredSales.length);
+    console.log('Total calculated:', total);
+    console.log('Date range:', { start: startDate, end: endDate });
   };
   
   const formatCurrency = (value: number): string => {
